@@ -1,0 +1,12 @@
+total 72
+drwxr-xr-x  11 hahadiou  candidates    374 Dec 17 21:42 .
+drwxr-xr-x  17 hahadiou  candidates    578 Dec 17 02:04 ..
+-rw-r--r--   1 hahadiou  candidates   1146 Dec 17 21:41 Makefile
+-rw-r--r--   1 hahadiou  candidates   2546 Dec 17 21:36 childs.c
+drwxr-xr-x   4 hahadiou  candidates    136 Dec 17 21:42 dprintf
+-rw-r--r--   1 hahadiou  candidates      0 Dec 17 21:17 in
+drwxr-xr-x  10 hahadiou  candidates    340 Dec 17 21:42 libft
+-rw-r--r--   1 hahadiou  candidates      0 Dec 17 21:42 out
+-rwxr-xr-x   1 hahadiou  candidates  18016 Dec 17 21:17 pipex
+-rw-r--r--   1 hahadiou  candidates   2159 Dec 17 21:38 pipex.c
+-rw-r--r--   1 hahadiou  candidates   1610 Dec 17 20:09 pipex.h
