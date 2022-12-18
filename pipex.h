@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:30 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 08:27:34 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:38:34 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ void		ft_free(t_pipex *pipex, char c);
 char		*find_path(char **envp);
 void		close_pipes(t_pipex *pipex);
 char		*get_cmd(char **paths, char *cmd);
-void		first_child(t_pipex pipex, char **av, char **envp);
-void		second_child(t_pipex pipex, char **av, char **envp);
-int			execute_cmd(t_pipex pipex, char **envp);
+void		child(t_pipex pipex, char **av, char **envp);
+void		parent(t_pipex pipex, char **av, char **envp);
 
 #endif

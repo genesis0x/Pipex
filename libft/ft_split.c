@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 19:59:22 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 11:49:17 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:39:02 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,3 @@ char	**ft_split(char *s, char c)
 	str[j] = NULL;
 	return (str);
 }
-
-// int main(int c, char **av)
-// {
-// 	int i = -1;
-// 	(void)av;
-// 	char str[] = "ls -la";
-// 	char **arr = ft_split(str, ' ');
-// 	while (arr[++i])
-// 			printf("%s\n", arr[i]);
-
-// 	printf("%s\n", arr[i]);
-
-// }

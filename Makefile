@@ -2,7 +2,7 @@ NAME        := pipex
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror 
 
-SRCS        :=     		childs.c \
+SRCS        :=     		process.c \
                         libft/ft_split.c \
                         libft/ft_strchr.c \
                         libft/ft_strjoin.c \

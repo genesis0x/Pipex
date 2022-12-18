@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   childs.c                                           :+:      :+:    :+:   */
+/*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 01:57:42 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 16:29:24 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:37:53 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*get_cmd(char **paths, char *cmd)
 	return (NULL);
 }
 
-void	first_child(t_pipex pipex, char **av, char **envp)
+void	child(t_pipex pipex, char **av, char **envp)
 {
 	pipex.infile = open(av[1], O_RDONLY);
 	if (access(av[1], F_OK) < 0)
@@ -98,7 +98,7 @@ void	first_child(t_pipex pipex, char **av, char **envp)
 	exit(127);
 }
 
-void	second_child(t_pipex pipex, char **av, char **envp)
+void	parent(t_pipex pipex, char **av, char **envp)
 {
 	pipex.outfile = open(av[4], O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (access(av[4], W_OK | R_OK) < 0)

@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 16:34:44 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:38:03 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	main(int ac, char **av, char **envp)
 	pipex.pid1 = fork();
 		//return (1);
 	if (pipex.pid1 == 0)
-		first_child(pipex, av, envp);
+		child(pipex, av, envp);
 	else
-		second_child(pipex, av, envp);
+		parent(pipex, av, envp);
 	close_pipes(&pipex);
 	waitpid(pipex.pid1, &status, 0);
 	waitpid(pipex.pid2, &status, 0);
