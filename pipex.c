@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 07:18:00 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 08:22:34 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,25 @@ int	main(int ac, char **av, char **envp)
 	// }
 	pipex.infile = open(av[1], O_RDWR | O_CREAT, 0644);
 	// if (access(av[1], F_OK) < 0){
-	// 	ft_dprintf(2, "pipex: %s: No such file or directory\n", av[1]);
+	// 	//ft_dprintf(2, "pipex: %s: No such file or directory\n", av[1]);
 	// 	exit(0);
 	// }
-	if (access(av[1], R_OK | W_OK) < 0)
-	{
-	 	ft_dprintf(2, "pipex: %s: permission denied\n", av[1]);
-	 	exit(0);
-	}
+	// if (access(av[1], R_OK | W_OK) < 0)
+	// {
+	//  	ft_dprintf(2, "pipex: %s: permission denied\n", av[1]);
+	//  	exit(0);
+	// }
 	pipex.outfile = open(av[4], O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (access(av[4], W_OK) < 0)
 	{
 		ft_dprintf(2, "pipex: %s: permission denied\n", av[4]);
-		exit(0);
+		exit(127);
 	}
 	if (pipe(pipex.tube) < 0)
 		ft_dprintf(2, "Pipe");
 	if ((pipex.paths = getenv("PATH")) == NULL) {
-		//dprintf(2, "None\n");
-        exit(0);
+		pipex.paths = "/Users/hahadiou/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/hahadiou/.fzf/bin";
+       // exit(0);
     }
 	pipex.cmd_paths = ft_split(pipex.paths, ':');
 	if ((pipex.pid1 = fork()) < 0)

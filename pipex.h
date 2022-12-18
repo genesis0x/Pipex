@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:30 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 07:26:55 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 08:27:34 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/uio.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <errno.h>
 
 typedef struct s_pipex
 {
@@ -41,7 +42,8 @@ void		ft_free(t_pipex *pipex, char c);
 char		*find_path(char **envp);
 void		close_pipes(t_pipex *pipex);
 char		*get_cmd(char **paths, char *cmd);
-int			first_child(t_pipex pipex, char **av, char **envp);
-int			second_child(t_pipex pipex, char **av, char **envp);
+void		first_child(t_pipex pipex, char **av, char **envp);
+void		second_child(t_pipex pipex, char **av, char **envp);
+int			execute_cmd(t_pipex pipex, char **envp);
 
 #endif

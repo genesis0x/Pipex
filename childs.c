@@ -6,11 +6,12 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 01:57:42 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 07:27:38 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 08:29:01 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <string.h>
 
 void	ft_free(t_pipex *pipex, char c)
 {
@@ -67,7 +68,8 @@ char	*get_cmd(char **paths, char *cmd)
 // 	printf("%s", get_cmd(pipex.cmd_paths, pipex.cmds_args[0]));
 // 	return (0);
 // }
-int	first_child(t_pipex pipex, char **av, char **envp)
+
+void	first_child(t_pipex pipex, char **av, char **envp)
 {
 	dup2(pipex.tube[1], 1);
 	close(pipex.tube[0]);
@@ -78,16 +80,14 @@ int	first_child(t_pipex pipex, char **av, char **envp)
 	{
 		ft_free(&pipex, 'c');
 		ft_dprintf(2, "pipex: %s: command not found\n", pipex.cmds_args[0]);
-		exit(0);
+		exit(127);
 	}
-	if ((pipex.paths = getenv("PATH")) == NULL)
-		return 1;
-	execve(pipex.cmd, pipex.cmds_args, envp);
+	if (execve(pipex.cmd, pipex.cmds_args, envp) < 0)
+		printf("%s\n", strerror(errno));
 	exit(127);
-	return 0;
 }
 
-int	second_child(t_pipex pipex, char **av, char **envp)
+void	second_child(t_pipex pipex, char **av, char **envp)
 {
 	dup2(pipex.tube[0], 0);
 	close(pipex.tube[1]);
@@ -98,11 +98,9 @@ int	second_child(t_pipex pipex, char **av, char **envp)
 	{
 		ft_free(&pipex, 'p');
 		ft_dprintf(2, "pipex: %s: command not found\n", pipex.cmds_args[0]);
-		exit(0);
+		exit(127);
 	}
-	if ((pipex.paths = getenv("PATH")) == NULL)
-		return 1;
-	execve(pipex.cmd, pipex.cmds_args, envp);
+	if (execve(pipex.cmd, pipex.cmds_args, envp) < 0)
+		printf("%s\n", strerror(errno));
 	exit(127);
-	return 0;
 }
