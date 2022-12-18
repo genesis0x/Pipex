@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 11:51:17 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:34:44 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	main(int ac, char **av, char **envp)
 		pipex.paths = "/Users/hahadiou/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/hahadiou/.fzf/bin";
     }
 	pipex.cmd_paths = ft_split(pipex.paths, ':');
-	if ((pipex.pid1 = fork()) < 0)
-		return (1);
+	pipex.pid1 = fork();
+		//return (1);
 	if (pipex.pid1 == 0)
 		first_child(pipex, av, envp);
 	else

@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int		count(char *s, char c)
+int	count(char *s, char c)
 {
 	int		i;
 	int		count;
@@ -64,8 +64,6 @@ char	**ft_split(char *s, char c)
 		if (s[i] == 39 || s[i] == 34)
 		{
 			start = &s[i + 1];
-
-
 			next_stop_char = s[i];
 			wordlen = -1;
 		}
@@ -81,9 +79,8 @@ char	**ft_split(char *s, char c)
 			i++;
 	}
 	str[j] = NULL;
-	return(str);
+	return (str);
 }
-
 
 // int main(int c, char **av)
 // {
@@ -92,7 +89,7 @@ char	**ft_split(char *s, char c)
 // 	char str[] = "ls -la";
 // 	char **arr = ft_split(str, ' ');
 // 	while (arr[++i])
-// 	 	printf("%s\n", arr[i]);
+// 			printf("%s\n", arr[i]);
 
 // 	printf("%s\n", arr[i]);
 

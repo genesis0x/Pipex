@@ -15,6 +15,7 @@
 
 # include "./dprintf/ft_dprintf.h"
 # include "./libft/libft.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -23,7 +24,6 @@
 # include <sys/uio.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <errno.h>
 
 typedef struct s_pipex
 {

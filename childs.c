@@ -6,12 +6,11 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 01:57:42 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 11:54:16 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:29:24 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <string.h>
 
 void	ft_free(t_pipex *pipex, char c)
 {
@@ -35,19 +34,32 @@ char	*get_cmd(char **paths, char *cmd)
 {
 	char	*tmp;
 	char	*command;
-	int i = -1;
+	int		i;
 
-	while (cmd[++i]){
-		if (cmd[i] == '/')
-			cmd = ft_strrchr(cmd, '/');
-		if (ft_strrchr(cmd, '/') == NULL)
-			break;
+	i = -1;
+	while (cmd[++i])
+	{
+		if (cmd[i] == '/' || cmd[i] == '.')
+		{
+			if (cmd[i] == '.')
+			{
+				if (access(cmd, X_OK) < 0)
+				{
+					ft_dprintf(2, "pipex: %s: permission denied\n", cmd);
+					exit(126);
+				}
+			}
+			else
+			{
+				cmd = ft_strrchr(cmd, '/');
+				if (ft_strrchr(cmd, '/') == NULL)
+					return (0);
+			}
+		}
 	}
 	while (*paths)
 	{
-		//printf("paths value :%s\n", *paths);
 		tmp = ft_strjoin(*paths, "/");
-		//printf("tmp value: %s\n", tmp);
 		command = ft_strjoin(tmp, cmd);
 		free(tmp);
 		if (access(command, F_OK) == 0)
@@ -57,29 +69,19 @@ char	*get_cmd(char **paths, char *cmd)
 	}
 	return (NULL);
 }
-// int main(int ac, char **av, char **envp){
-// 	t_pipex pipex;
-// 	pipex.paths = getenv("PATH");
-// 	pipex.cmds_args = ft_split("awk '{count++} END {print count}'", ' ');
-// 	printf("pipex.cmds_args: %s\n", *pipex.cmds_args);
-// 	printf("paths value :%s\n", pipex.paths);
-// 	pipex.cmd_paths = ft_split(pipex.paths, ':');
-// 	//printf("%s\n", pipex.paths);
-// 	printf("%s", get_cmd(pipex.cmd_paths, pipex.cmds_args[0]));
-// 	return (0);
-// }
 
 void	first_child(t_pipex pipex, char **av, char **envp)
 {
 	pipex.infile = open(av[1], O_RDONLY);
-	if (access(av[1], F_OK) < 0){
+	if (access(av[1], F_OK) < 0)
+	{
 		ft_dprintf(2, "pipex: %s: No such file or directory\n", av[1]);
 		exit(0);
 	}
 	if (access(av[1], R_OK) < 0)
 	{
-	 	ft_dprintf(2, "pipex: %s: permission denied\n", av[1]);
-	 	exit(126);
+		ft_dprintf(2, "pipex: %s: permission denied\n", av[1]);
+		exit(126);
 	}
 	dup2(pipex.tube[1], 1);
 	close(pipex.tube[0]);
@@ -93,7 +95,6 @@ void	first_child(t_pipex pipex, char **av, char **envp)
 		exit(127);
 	}
 	execve(pipex.cmd, pipex.cmds_args, envp);
-		printf("%s\n", strerror(errno));
 	exit(127);
 }
 
@@ -117,6 +118,5 @@ void	second_child(t_pipex pipex, char **av, char **envp)
 		exit(127);
 	}
 	execve(pipex.cmd, pipex.cmds_args, envp);
-		//printf("%s\n", strerror(errno));
 	exit(127);
 }
