@@ -6,13 +6,15 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 19:59:22 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/17 03:01:54 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 06:47:15 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
+#include <string.h>
 
-static int	ft_countword(char const *s, char c)
+static int	ft_countword(char *s, char c)
 {
 	int	count;
 	int	i;
@@ -31,7 +33,7 @@ static int	ft_countword(char const *s, char c)
 	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char	**strs;
 	int		word_len;
@@ -59,3 +61,4 @@ char	**ft_split(char const *s, char c)
 	strs[i] = 0;
 	return (strs);
 }
+

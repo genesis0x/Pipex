@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 01:57:42 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/17 21:36:49 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 07:27:38 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,19 @@ char	*get_cmd(char **paths, char *cmd)
 {
 	char	*tmp;
 	char	*command;
+	int i = -1;
 
+	while (cmd[++i]){
+		if (cmd[i] == '/')
+			cmd = ft_strrchr(cmd, '/');
+		if (ft_strrchr(cmd, '/') == NULL)
+			break;
+	}
 	while (*paths)
 	{
+		//printf("paths value :%s\n", *paths);
 		tmp = ft_strjoin(*paths, "/");
+		//printf("tmp value: %s\n", tmp);
 		command = ft_strjoin(tmp, cmd);
 		free(tmp);
 		if (access(command, F_OK) == 0)
@@ -50,13 +59,15 @@ char	*get_cmd(char **paths, char *cmd)
 // int main(int ac, char **av, char **envp){
 // 	t_pipex pipex;
 // 	pipex.paths = getenv("PATH");
+// 	pipex.cmds_args = ft_split("awk '{count++} END {print count}'", ' ');
+// 	printf("pipex.cmds_args: %s\n", *pipex.cmds_args);
 // 	printf("paths value :%s\n", pipex.paths);
 // 	pipex.cmd_paths = ft_split(pipex.paths, ':');
-// 	printf("%s\n", pipex.paths);
-// 	printf("%s", get_cmd(pipex.cmd_paths, "cat"));
-// 	return 0;
+// 	//printf("%s\n", pipex.paths);
+// 	printf("%s", get_cmd(pipex.cmd_paths, pipex.cmds_args[0]));
+// 	return (0);
 // }
-void	first_child(t_pipex pipex, char *av[], char *envp[])
+int	first_child(t_pipex pipex, char **av, char **envp)
 {
 	dup2(pipex.tube[1], 1);
 	close(pipex.tube[0]);
@@ -66,14 +77,17 @@ void	first_child(t_pipex pipex, char *av[], char *envp[])
 	if (!pipex.cmd)
 	{
 		ft_free(&pipex, 'c');
-		ft_dprintf(2, "Pipex: command not found: %s\n", pipex.cmds_args[0]);
+		ft_dprintf(2, "pipex: %s: command not found\n", pipex.cmds_args[0]);
 		exit(0);
 	}
+	if ((pipex.paths = getenv("PATH")) == NULL)
+		return 1;
 	execve(pipex.cmd, pipex.cmds_args, envp);
 	exit(127);
+	return 0;
 }
 
-void	second_child(t_pipex pipex, char *av[], char *envp[])
+int	second_child(t_pipex pipex, char **av, char **envp)
 {
 	dup2(pipex.tube[0], 0);
 	close(pipex.tube[1]);
@@ -82,10 +96,13 @@ void	second_child(t_pipex pipex, char *av[], char *envp[])
 	pipex.cmd = get_cmd(pipex.cmd_paths, pipex.cmds_args[0]);
 	if (!pipex.cmd)
 	{
-		ft_free(&pipex, 'c');
-		ft_dprintf(2, "Pipex: command not found: %s\n", pipex.cmds_args[0]);
+		ft_free(&pipex, 'p');
+		ft_dprintf(2, "pipex: %s: command not found\n", pipex.cmds_args[0]);
 		exit(0);
 	}
+	if ((pipex.paths = getenv("PATH")) == NULL)
+		return 1;
 	execve(pipex.cmd, pipex.cmds_args, envp);
 	exit(127);
+	return 0;
 }

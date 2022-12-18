@@ -1,10 +1,9 @@
 NAME        := pipex
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror 
+FLAGS    := -Wall -Wextra -Werror
 
-SRCS        :=      ft_split.c \
-                          ft_strjoin.c \
-                          
+SRCS        :=	$(wildcard *.c)
+
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:
