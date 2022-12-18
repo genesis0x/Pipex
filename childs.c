@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 01:57:42 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 08:29:01 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/18 11:54:16 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,16 @@ char	*get_cmd(char **paths, char *cmd)
 
 void	first_child(t_pipex pipex, char **av, char **envp)
 {
+	pipex.infile = open(av[1], O_RDONLY);
+	if (access(av[1], F_OK) < 0){
+		ft_dprintf(2, "pipex: %s: No such file or directory\n", av[1]);
+		exit(0);
+	}
+	if (access(av[1], R_OK) < 0)
+	{
+	 	ft_dprintf(2, "pipex: %s: permission denied\n", av[1]);
+	 	exit(126);
+	}
 	dup2(pipex.tube[1], 1);
 	close(pipex.tube[0]);
 	dup2(pipex.infile, 0);
@@ -82,13 +92,19 @@ void	first_child(t_pipex pipex, char **av, char **envp)
 		ft_dprintf(2, "pipex: %s: command not found\n", pipex.cmds_args[0]);
 		exit(127);
 	}
-	if (execve(pipex.cmd, pipex.cmds_args, envp) < 0)
+	execve(pipex.cmd, pipex.cmds_args, envp);
 		printf("%s\n", strerror(errno));
 	exit(127);
 }
 
 void	second_child(t_pipex pipex, char **av, char **envp)
 {
+	pipex.outfile = open(av[4], O_RDWR | O_TRUNC | O_CREAT, 0644);
+	if (access(av[4], W_OK | R_OK) < 0)
+	{
+		ft_dprintf(2, "pipex: %s: permission denied\n", av[4]);
+		exit(127);
+	}
 	dup2(pipex.tube[0], 0);
 	close(pipex.tube[1]);
 	dup2(pipex.outfile, 1);
@@ -100,7 +116,7 @@ void	second_child(t_pipex pipex, char **av, char **envp)
 		ft_dprintf(2, "pipex: %s: command not found\n", pipex.cmds_args[0]);
 		exit(127);
 	}
-	if (execve(pipex.cmd, pipex.cmds_args, envp) < 0)
-		printf("%s\n", strerror(errno));
+	execve(pipex.cmd, pipex.cmds_args, envp);
+		//printf("%s\n", strerror(errno));
 	exit(127);
 }

@@ -3,21 +3,21 @@ CC        := gcc
 FLAGS    := -Wall -Wextra -Werror 
 
 SRCS        :=     		childs.c \
-                          libft/ft_split.c \
-                          libft/ft_strchr.c \
-                          libft/ft_strjoin.c \
-                          libft/ft_strlen.c \
-                          libft/ft_strncmp.c \
-                          libft/ft_substr.c \
-						  libft/ft_strrchr.c \
-						  libft/ft_memmove.c \
-						  libft/ft_memcpy.c \
-						  libft/ft_strdup.c \
-						  libft/ft_strlcat.c \
-						  libft/ft_strtrim.c \
-						  libft/ft_strnstr.c \
-						  dprintf/ft_dprintf.c \
-                          pipex.c \
+                        libft/ft_split.c \
+                        libft/ft_strchr.c \
+                        libft/ft_strjoin.c \
+                        libft/ft_strlen.c \
+                        libft/ft_strncmp.c \
+                        libft/ft_substr.c \
+						libft/ft_strrchr.c \
+						libft/ft_memmove.c \
+						libft/ft_memcpy.c \
+						libft/ft_strdup.c \
+						libft/ft_strlcat.c \
+						libft/ft_strtrim.c \
+						libft/ft_strnstr.c \
+						dprintf/ft_dprintf.c \
+                        pipex.c 
                           
 OBJS        := $(SRCS:.c=.o)
 
