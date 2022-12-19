@@ -30,6 +30,16 @@ char	*find_path(char **env)
 	return (*env + 5);
 }
 
+int	ft_fork(t_pipex pipex, char **av, char **envp)
+{
+	pipex.pid = fork();
+	if (pipex.pid == 0)
+		child(pipex, av, envp);
+	else
+		parent(pipex, av, envp);
+	return (pipex.pid);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
@@ -41,22 +51,17 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	}
 	if (pipe(pipex.pipe) < 0)
-    {
-        ft_dprintf(2, "Pipe failed");
+	{
+		ft_dprintf(2, "Pipe failed");
 		return (1);
-    }
+	}
 	pipex.paths = find_path(envp);
 	pipex.cmd_paths = ft_split(pipex.paths, ':');
-	pipex.pid = fork();
-    if (pipex.pid < 0)
-    {
-        ft_dprintf(2, "Fork failed");
-        return (1);
-    }
-	if (pipex.pid == 0)
-		child(pipex, av, envp);
-	else
-		parent(pipex, av, envp);
+	if (ft_fork(pipex, av, envp) < 0)
+	{
+		ft_dprintf(2, "Fork failed");
+		return (1);
+	}
 	close_pipes(&pipex);
 	waitpid(pipex.pid, &status, 0);
 	ft_free(&pipex, 'p');
