@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:30 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 16:38:34 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/19 09:39:03 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@
 typedef struct s_pipex
 {
 	pid_t	pid1;
-	pid_t	pid2;
-	int		tube[2];
+	int		pipe[2];
 	int		infile;
 	int		outfile;
 	char	*paths;
