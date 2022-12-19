@@ -6,14 +6,11 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/19 10:51:12 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/19 12:02:37 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "libft/libft.h"
-#include <sys/fcntl.h>
-#include <sys/unistd.h>
 
 
 void	close_pipes(t_pipex *pipex)
@@ -25,7 +22,7 @@ void	close_pipes(t_pipex *pipex)
 char	*find_path(char **env)
 {
 	if (*env == NULL)
-		return ("/Users/hahadiou/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/hahadiou/.fzf/bin");
+		return ("/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.");
 	while (ft_strncmp("PATH", *env, 4))
 		env++;
 	return (*env + 5);
@@ -53,6 +50,6 @@ int	main(int ac, char **av, char **envp)
 		parent(pipex, av, envp);
 	close_pipes(&pipex);
 	waitpid(pipex.pid1, &status, 0);
-	ft_free(&pipex, 'p');
+	ft_free(&pipex,'p');
 	return (0);
 }
