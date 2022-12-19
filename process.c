@@ -28,7 +28,7 @@ void	ft_free(t_pipex *pipex, char c)
 }
 
 int	check_cmd(char *cmd)
-{	
+{
 	if (access(cmd, F_OK) < 0)
 	{
 		ft_dprintf(2, "No Such file: %s\n", cmd);
@@ -39,38 +39,32 @@ int	check_cmd(char *cmd)
 		ft_dprintf(2, "Permissions: %s\n", cmd);
 		exit(126);
 	}
-	return 1;
+	return (1);
 }
+
 char	*get_cmd(char **paths, char *cmd)
 {
 	char	*tmp;
 	char	*command;
-	int		i;
 
-	i = -1;
-	if (cmd[0] == '.' || cmd[0] == '/')
+	if (cmd[0] == '.')
+		if (check_cmd(cmd) == 1)
+			return (cmd);
+	if (cmd[0] == '/')
 	{
-		if (cmd[0] == '.')
-		{
-			if (check_cmd(cmd) == 1)
-				return (cmd);
-		}
-		else
-		{
-			cmd = ft_strrchr(cmd, '/');
-			if (ft_strrchr(cmd, '/') == NULL)
-				return (0);
-		}
+		cmd = ft_strrchr(cmd, '/');
+		if (ft_strrchr(cmd, '/') == NULL)
+			return (0);
 	}
 	while (*paths)
 	{
-			tmp = ft_strjoin(*paths, "/");
-			command = ft_strjoin(tmp, cmd);
-			free(tmp);
-			if (access(command, F_OK) == 0)
-				return (command);
-			free(command);
-			paths++;
+		tmp = ft_strjoin(*paths, "/");
+		command = ft_strjoin(tmp, cmd);
+		free(tmp);
+		if (access(command, F_OK) == 0)
+			return (command);
+		free(command);
+		paths++;
 	}
 	return (NULL);
 }

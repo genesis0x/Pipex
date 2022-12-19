@@ -6,15 +6,15 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:30 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/19 09:39:03 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/19 17:47:39 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "./dprintf/ft_dprintf.h"
-# include "./libft/libft.h"
+# include "dprintf/ft_dprintf.h"
+# include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
@@ -27,7 +27,7 @@
 
 typedef struct s_pipex
 {
-	pid_t	pid1;
+	pid_t	pid;
 	int		pipe[2];
 	int		infile;
 	int		outfile;

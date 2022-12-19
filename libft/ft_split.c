@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 19:59:22 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 16:39:02 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/19 16:23:47 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,70 +14,62 @@
 
 int	count(char *s, char c)
 {
-	int		i;
-	int		count;
-	char	k;
-	char	*next_stop;
+	t_split	sp;
 
-	count = 0;
-	i = 0;
-	while (s[i] && s[i] == c)
-		i++;
-	while (s[i])
+	sp.j = 0;
+	sp.i = 0;
+	while (s[sp.i] && s[sp.i] == c)
+		sp.i++;
+	while (s[sp.i])
 	{
-		if (s[i] == 39 || s[i] == 34)
-			k = s[i];
+		if (s[sp.i] == 39 || s[sp.i] == 34)
+			sp.k = s[sp.i];
 		else
-			k = c;
-		next_stop = ft_strchr(&s[i + 1], k);
-		i += next_stop - &s[i];
-		if (k != c)
-			i += 2;
-		count++;
-		while (s[i] && s[i] == c)
-			i++;
+			sp.k = c;
+		sp.next_stop = ft_strchr(&s[sp.i + 1], sp.k);
+		sp.i += sp.next_stop - &s[sp.i];
+		if (sp.k != c)
+			sp.i += 2;
+		sp.j++;
+		while (s[sp.i] && s[sp.i] == c)
+			sp.i++;
 	}
-	return (count);
+	return (sp.j);
 }
 
 char	**ft_split(char *s, char c)
 {
-	int		i;
-	int		j;
-	int		wordlen;
-	char	next_stop_char;
-	char	*next_stop;
-	char	**str;
-	char	*start;
+	t_split	*sp;
 
-	str = malloc((count(s, c) + 1) * sizeof(char *));
-	if (!str)
+	sp = malloc(sizeof(t_split));
+	sp->str = malloc((count(s, c) + 1) * sizeof(char *));
+	if (!sp->str)
 		return (NULL);
-	i = 0;
-	while (s[i] && s[i] == c)
-		i++;
-	j = 0;
-	while (s[i])
+	sp->i = 0;
+	while (s[sp->i] && s[sp->i] == c)
+		sp->i++;
+	sp->j = 0;
+	while (s[sp->i])
 	{
-		wordlen = 0;
-		start = &s[i];
-		if (s[i] == 39 || s[i] == 34)
+		sp->wordlen = 0;
+		sp->start = &s[sp->i];
+		if (s[sp->i] == 39 || s[sp->i] == 34)
 		{
-			start = &s[i + 1];
-			next_stop_char = s[i];
-			wordlen = -1;
+			sp->start = &s[sp->i + 1];
+			sp->next_stop_char = s[sp->i];
+			sp->wordlen = -1;
 		}
 		else
-			next_stop_char = c;
-		next_stop = ft_strchr(&s[i + 1], next_stop_char);
-		wordlen += next_stop - &s[i];
-		i += wordlen;
-		if (next_stop_char != c)
-			i += 2;
-		str[j++] = ft_substr(start, 0, wordlen);
-		while (s[i] && s[i] == c)
-			i++;
+			sp->next_stop_char = c;
+		sp->next_stop = ft_strchr(&s[sp->i + 1], sp->next_stop_char);
+		sp->wordlen += sp->next_stop - &s[sp->i];
+		sp->i += sp->wordlen;
+		if (sp->next_stop_char != c)
+			sp->i += 2;
+		sp->str[sp->j++] = ft_substr(sp->start, 0, sp->wordlen);
+		while (s[sp->i] && s[sp->i] == c)
+			sp->i++;
 	}
-	str[j] = NULL;
-	return (str);
+	sp->str[sp->j] = NULL;
+	return (sp->str);
 }

@@ -1,6 +1,6 @@
 NAME        := pipex
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror 
+FLAGS    := -Wall -Wextra -Werror
 
 SRCS        :=     		process.c \
                         libft/ft_split.c \
@@ -17,12 +17,12 @@ SRCS        :=     		process.c \
 						libft/ft_strtrim.c \
 						libft/ft_strnstr.c \
 						dprintf/ft_dprintf.c \
-                        pipex.c 
-                          
+                        pipex.c
+
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:
-	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+	@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
 
 CLR_RMV		:= \033[0m
 RED		    := \033[1;31m
@@ -34,7 +34,7 @@ RM		    := rm -f
 
 ${NAME}:	${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			${CC} ${FLAGS} -o ${NAME} ${OBJS}
+			@${CC} ${FLAGS} -o ${NAME} ${OBJS}
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 
 all:		${NAME}
@@ -43,11 +43,11 @@ bonus:		all
 
 clean:
 			@ ${RM} *.o */*.o */*/*.o
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
+			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)OBJS ✔️"
 
 fclean:		clean
 			@ ${RM} ${NAME}
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
+			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)Binary ✔️"
 
 re:			fclean all
 

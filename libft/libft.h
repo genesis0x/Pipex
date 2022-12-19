@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:38:40 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 11:47:51 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/19 16:20:48 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct s_split
+{
+	char			k;
+	int				i;
+	int				j;
+	int				wordlen;
+	char			next_stop_char;
+	char			*next_stop;
+	char			**str;
+	char			*start;
+}					t_split;
 
 typedef struct s_vector
 {
