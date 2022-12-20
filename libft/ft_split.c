@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 19:59:22 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/19 16:23:47 by hahadiou         ###   ########.fr       */
+/*   Updated: 2022/12/20 19:01:31 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,8 @@ int	count(char *s, char c)
 	return (sp.j);
 }
 
-char	**ft_split(char *s, char c)
+char	**ft_fill(t_split *sp, char *s, char c)
 {
-	t_split	*sp;
-
-	sp = malloc(sizeof(t_split));
-	sp->str = malloc((count(s, c) + 1) * sizeof(char *));
-	if (!sp->str)
-		return (NULL);
-	sp->i = 0;
-	while (s[sp->i] && s[sp->i] == c)
-		sp->i++;
 	sp->j = 0;
 	while (s[sp->i])
 	{
@@ -71,5 +62,20 @@ char	**ft_split(char *s, char c)
 			sp->i++;
 	}
 	sp->str[sp->j] = NULL;
+	return (sp->str);
+}
+
+char	**ft_split(char *s, char c)
+{
+	t_split	*sp;
+
+	sp = malloc(sizeof(t_split));
+	sp->str = malloc((count(s, c) + 1) * sizeof(char *));
+	if (!sp->str)
+		return (NULL);
+	sp->i = 0;
+	while (s[sp->i] && s[sp->i] == c)
+		sp->i++;
+	sp->str = ft_fill(sp, s, c);
 	return (sp->str);
 }

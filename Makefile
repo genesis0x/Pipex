@@ -19,25 +19,7 @@ SRCS        :=     		process.c \
 						dprintf/ft_dprintf.c \
                         pipex.c
 
-SRCS_B        :=     	process_bonux.c \
-                        libft/ft_split.c \
-                        libft/ft_strchr.c \
-                        libft/ft_strjoin.c \
-                        libft/ft_strlen.c \
-                        libft/ft_strncmp.c \
-                        libft/ft_substr.c \
-						libft/ft_strrchr.c \
-						libft/ft_memmove.c \
-						libft/ft_memcpy.c \
-						libft/ft_strdup.c \
-						libft/ft_strlcat.c \
-						libft/ft_strtrim.c \
-						libft/ft_strnstr.c \
-						dprintf/ft_dprintf.c \
-                        pipex_bonux.c
-
 OBJS        := $(SRCS:.c=.o)
-OBJS_B        := $(SRCS_B:.c=.o)
 
 .c.o:
 	@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
@@ -49,18 +31,14 @@ YELLOW		:= \033[1;33m
 BLUE		:= \033[1;34m
 CYAN 		:= \033[1;36m
 RM		    := rm -f
+all:		${NAME}
 
 ${NAME}:	${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
 			@${CC} ${{FLAGS} -o ${NAME} ${OBJS}
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 
-all:		${NAME}
-
-bonus:		${OBJS_B}
-			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			@${CC} ${{FLAGS} -o ${NAME} ${OBJS_B}
-			@echo "$(GREEN)$(NAME) created[0m ✔️"
+bonus	:	all
 
 clean:
 			@ ${RM} *.o */*.o */*/*.o
