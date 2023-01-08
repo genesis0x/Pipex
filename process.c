@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 01:57:42 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/20 18:55:16 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/08 17:25:05 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,11 @@ char	*get_cmd(char **paths, char *cmd)
 
 void	child(t_pipex pipex, char **av, char **env)
 {
-	pipex.infile = open(av[1], O_RDONLY);
-	if (access(av[1], F_OK) < 0)
-	{
-		ft_dprintf(2, "pipex: %s: No such file or directory\n", av[1]);
-		exit(0);
-	}
-	if (access(av[1], R_OK) < 0)
-	{
-		ft_dprintf(2, "pipex: %s: permission denied\n", av[1]);
-		exit(0);
-	}
+	pipex.idx_arg = 2;
 	dup2(pipex.pipe[1], 1);
 	close(pipex.pipe[0]);
 	dup2(pipex.infile, 0);
-	pipex.cmds_args = ft_split(av[2], ' ');
+	pipex.cmds_args = ft_split(av[pipex.idx_arg++], ' ');
 	pipex.cmd = get_cmd(pipex.cmd_paths, pipex.cmds_args[0]);
 	if (!pipex.cmd)
 	{
@@ -97,18 +87,18 @@ void	child(t_pipex pipex, char **av, char **env)
 	exit(1);
 }
 
-void	parent(t_pipex pipex, char **av, char **env)
+void	parent(t_pipex pipex, int ac, char **av, char **env)
 {
-	pipex.outfile = open(av[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (access(av[4], W_OK) < 0)
+	pipex.outfile = open(av[ac - 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (access(av[ac - 1], W_OK) < 0)
 	{
-		ft_dprintf(2, "pipex: %s: permission denied\n", av[4]);
+		ft_dprintf(2, "pipex: %s: permission denied\n", av[ac - 1]);
 		exit(1);
 	}
 	dup2(pipex.pipe[0], 0);
 	close(pipex.pipe[1]);
 	dup2(pipex.outfile, 1);
-	pipex.cmds_args = ft_split(av[3], ' ');
+	pipex.cmds_args = ft_split(av[ac - 2], ' ');
 	pipex.cmd = get_cmd(pipex.cmd_paths, pipex.cmds_args[0]);
 	if (!pipex.cmd)
 	{

@@ -68,7 +68,9 @@ char	**ft_fill(t_split *sp, char *s, char c)
 char	**ft_split(char *s, char c)
 {
 	t_split	*sp;
+	int		x;
 
+	x = 0;
 	sp = malloc(sizeof(t_split));
 	sp->str = malloc((count(s, c) + 1) * sizeof(char *));
 	if (!sp->str)
