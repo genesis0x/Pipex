@@ -17,6 +17,8 @@ SRCS        :=     		process.c \
 						libft/ft_strtrim.c \
 						libft/ft_strnstr.c \
 						dprintf/ft_dprintf.c \
+						get_next_line/get_next_line.c \
+						get_next_line/get_next_line_utils.c \
                         pipex.c
 
 OBJS        := $(SRCS:.c=.o)
@@ -46,7 +48,7 @@ clean:
 
 fclean:		clean
 			@ ${RM} ${NAME}
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)Binary ✔️"
+			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)${NAME} ✔️"
 
 re:			fclean all
 

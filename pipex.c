@@ -6,12 +6,11 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/08 17:34:06 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/08 17:46:20 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <sys/wait.h>
 
 void	close_pipes(t_pipex *pipex)
 {
@@ -35,7 +34,8 @@ void	ft_fork(t_pipex pipex, int ac, char **av, char **envp)
 {
 	int	status;
 
-	if ((pipex.pid = fork()) > -1)
+	pipex.pid = fork();
+	if (pipex.pid > -1)
 	{
 		if (pipex.pid == 0)
 			child(pipex, av, envp);
