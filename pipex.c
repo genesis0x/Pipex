@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/10 16:36:43 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/10 20:20:20 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_fork(t_pipex pipex, int ac, char **av, char **envp)
 
 void	ft_open(t_pipex pipex, char **av)
 {
-	pipex.in = open(av[1], O_RDONLY);
+	pipex.in = open(av[1], O_RDONLY | O_CREAT, 0644);
 	if (access(av[1], F_OK) < 0)
 	{
 		dprintf(2, "pipex: %s: No such file or directory\n", av[1]);
@@ -67,33 +67,11 @@ void	ft_open(t_pipex pipex, char **av)
 	}
 }
 
-void	heredoc(char *delimiter)
-{
-	t_pipex	pipex;
-	char	*line;
-
-	pipex.heredoc = open("here_doc", O_RDONLY | O_CREAT, 0644);
-	while (1)
-	{
-		ft_dprintf(0, "heredoc> ");
-		line = get_next_line(0);
-		if (ft_strnstr(line, delimiter, strlen(delimiter)))
-			exit(1);
-		ft_dprintf(pipex.heredoc, "%s", line);
-	}
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
 
-	if (ac < 5)
-	{
-		ft_dprintf(2, "Bad Usage");
-		return (1);
-	}
-	else if (!(ft_strncmp(av[1], "here_doc", 8)))
-		heredoc(av[2]);
+	args(ac, av);
 	if (pipe(pipex.pipe) < 0)
 	{
 		ft_dprintf(2, "Pipe failed");

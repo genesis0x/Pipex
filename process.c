@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 01:57:42 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/09 16:52:07 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/10 20:07:57 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*get_cmd(char **paths, char *cmd)
 
 void	child(t_pipex pipex, char **av, char **env)
 {
-	pipex.cmds_idx = 2;
+	pipex.cmds_idx = 3;
 	dup2(pipex.pipe[1], 1);
 	close(pipex.pipe[0]);
 	dup2(pipex.in, 0);

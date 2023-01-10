@@ -6,7 +6,7 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:30 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/10 16:28:47 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/10 20:22:12 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,9 @@ typedef struct s_pipex
 }			t_pipex;
 
 void		ft_free(t_pipex *pipex, char c);
-char		*find_path(char **envp);
 void		close_pipes(t_pipex *pipex);
-char		*get_cmd(char **paths, char *cmd);
 void		child(t_pipex pipex, char **av, char **envp);
 void		parent(t_pipex pipex, int ac, char **av, char **envp);
-void		ft_open(t_pipex pipex, char **av);
 void		heredoc(char *delimiter);
+void		args(int ac, char **av);
 #endif
