@@ -6,18 +6,18 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 07:46:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/17 07:56:13 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/10 16:39:28 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_dprintf.h"
+#include "libft.h"
 
-void	ft_putchar_fd(int fd, char c)
+static void	ft_putchar_fd(int fd, char c)
 {
 	write(fd, &c, 1);
 }
 
-void	ft_putstr(int fd, char *s)
+static void	ft_putstr(int fd, char *s)
 {
 	int	i;
 

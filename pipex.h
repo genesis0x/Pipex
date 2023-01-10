@@ -6,16 +6,14 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:30 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/08 19:17:11 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/10 16:28:47 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "dprintf/ft_dprintf.h"
 # include "libft/libft.h"
-# include "get_next_line/get_next_line.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
@@ -30,15 +28,15 @@ typedef struct s_pipex
 {
 	pid_t	pid;
 	int		pipe[2];
-	int		infile;
-	int		outfile;
+	int		in;
+	int		out;
 	char	*paths;
-	char	**cmd_paths;
+	char	**cmds_paths;
 	char	**cmds_args;
 	char	*cmd;
 	int		i;
-	int		idx_arg;
-	int		here_doc;
+	int		cmds_idx;
+	int		heredoc;
 }			t_pipex;
 
 void		ft_free(t_pipex *pipex, char c);
@@ -48,4 +46,5 @@ char		*get_cmd(char **paths, char *cmd);
 void		child(t_pipex pipex, char **av, char **envp);
 void		parent(t_pipex pipex, int ac, char **av, char **envp);
 void		ft_open(t_pipex pipex, char **av);
+void		heredoc(char *delimiter);
 #endif

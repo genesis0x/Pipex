@@ -6,11 +6,20 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 21:41:47 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/08 19:15:14 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/10 15:31:16 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
+
+static void	free_buffer(t_read *prb)
+{
+	if (prb->buf != NULL)
+	{
+		free(prb->buf);
+		prb->buf = NULL;
+	}
+}
 
 static char	*ft_realloc(t_line *line)
 {
