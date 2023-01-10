@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/10 22:03:12 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/10 22:18:07 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	close_pipes(t_pipex *pipex)
 {
@@ -30,26 +30,48 @@ char	*find_path(char **env)
 	return (*env + 5);
 }
 
-int	ft_fork(t_pipex pipex, int ac, char **av, char **envp)
+void	ft_fork(t_pipex pipex, int ac, char **av, char **envp)
 {
+	int	status;
+
 	pipex.pid = fork();
-	if (pipex.pid == 0)
-		child(pipex, av, envp);
+	if (pipex.pid > -1)
+	{
+		if (pipex.pid == 0)
+			child(pipex, av, envp);
+		else
+		{
+			wait(&status);
+			parent(pipex, ac, av, envp);
+		}
+	}
 	else
-		parent(pipex, ac, av, envp);
-	return (pipex.pid);
+	{
+		ft_dprintf(2, "Fork failed");
+		exit(1);
+	}
+}
+
+void	ft_open(t_pipex pipex, char **av)
+{
+	pipex.in = open(av[1], O_RDONLY | O_CREAT, 0644);
+	if (access(av[1], F_OK) < 0)
+	{
+		dprintf(2, "pipex: %s: No such file or directory\n", av[1]);
+		exit(0);
+	}
+	if (access(av[1], R_OK) < 0)
+	{
+		ft_dprintf(2, "pipex: %s: permission denied\n", av[1]);
+		exit(0);
+	}
 }
 
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
-	int		status;
 
-	if (ac < 5)
-	{
-		ft_dprintf(2, "Bad Usage");
-		return (1);
-	}
+	args(ac, av);
 	if (pipe(pipex.pipe) < 0)
 	{
 		ft_dprintf(2, "Pipe failed");
@@ -57,13 +79,10 @@ int	main(int ac, char **av, char **envp)
 	}
 	pipex.paths = find_path(envp);
 	pipex.cmds_paths = ft_split(pipex.paths, ':');
-	if (ft_fork(pipex, ac, av, envp) < 0)
-	{
-		ft_dprintf(2, "Fork failed");
-		return (1);
-	}
+	pipex.i = 0;
+	while (++(pipex.i) < ac - 3)
+		ft_fork(pipex, ac, av, envp);
 	close_pipes(&pipex);
-	waitpid(pipex.pid, &status, 0);
 	ft_free(&pipex, 'p');
 	return (0);
 }

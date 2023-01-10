@@ -6,11 +6,11 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 20:20:24 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/10 20:20:34 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/10 21:29:48 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	heredoc(char *delimiter)
 {
