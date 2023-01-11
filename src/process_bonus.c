@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   process_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 01:57:42 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/10 22:28:26 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:30:12 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../inc/pipex_bonus.h"
 
 void	ft_free(t_pipex *pipex, char c)
 {
@@ -71,7 +71,7 @@ char	*get_cmd(char **paths, char *cmd)
 
 void	child(t_pipex pipex, char **av, char **env)
 {
-	pipex.in = open(av[1], O_RDONLY);
+	pipex.in = open(av[1], O_RDONLY | O_CREAT, 0644);
 	if (access(av[1], F_OK) < 0)
 	{
 		dprintf(2, "pipex: %s: No such file or directory\n", av[1]);
@@ -82,10 +82,11 @@ void	child(t_pipex pipex, char **av, char **env)
 		ft_dprintf(2, "pipex: %s: permission denied\n", av[1]);
 		exit(0);
 	}
+	pipex.cmds_idx = 3;
 	dup2(pipex.pipe[1], 1);
 	close(pipex.pipe[0]);
 	dup2(pipex.in, 0);
-	pipex.cmds_args = ft_split(av[2], ' ');
+	pipex.cmds_args = ft_split(av[pipex.cmds_idx++], ' ');
 	pipex.cmd = get_cmd(pipex.cmds_paths, pipex.cmds_args[0]);
 	if (!pipex.cmd)
 	{
@@ -99,17 +100,16 @@ void	child(t_pipex pipex, char **av, char **env)
 
 void	parent(t_pipex pipex, int ac, char **av, char **env)
 {
-	(void)ac;
-	pipex.out = open(av[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (access(av[4], W_OK) < 0)
+	pipex.out = open(av[ac - 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (access(av[ac - 1], W_OK) < 0)
 	{
-		ft_dprintf(2, "pipex: %s: permission denied\n", av[4]);
+		ft_dprintf(2, "pipex: %s: permission denied\n", av[ac - 1]);
 		exit(1);
 	}
 	dup2(pipex.pipe[0], 0);
 	close(pipex.pipe[1]);
 	dup2(pipex.out, 1);
-	pipex.cmds_args = ft_split(av[3], ' ');
+	pipex.cmds_args = ft_split(av[ac - 2], ' ');
 	if (pipex.cmds_args[0] == NULL)
 		exit(1);
 	pipex.cmd = get_cmd(pipex.cmds_paths, pipex.cmds_args[0]);

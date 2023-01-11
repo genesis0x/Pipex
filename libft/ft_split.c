@@ -6,11 +6,11 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 19:59:22 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/20 19:01:31 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:12:07 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 int	count(char *s, char c)
 {
@@ -37,47 +37,46 @@ int	count(char *s, char c)
 	return (sp.j);
 }
 
-char	**ft_fill(t_split *sp, char *s, char c)
+char	**ft_fill(t_split sp, char *s, char c)
 {
-	sp->j = 0;
-	while (s[sp->i])
+	sp.j = 0;
+	while (s[sp.i])
 	{
-		sp->wordlen = 0;
-		sp->start = &s[sp->i];
-		if (s[sp->i] == 39 || s[sp->i] == 34)
+		sp.wordlen = 0;
+		sp.start = &s[sp.i];
+		if (s[sp.i] == 39 || s[sp.i] == 34)
 		{
-			sp->start = &s[sp->i + 1];
-			sp->next_stop_char = s[sp->i];
-			sp->wordlen = -1;
+			sp.start = &s[sp.i + 1];
+			sp.next_stop_char = s[sp.i];
+			sp.wordlen = -1;
 		}
 		else
-			sp->next_stop_char = c;
-		sp->next_stop = ft_strchr(&s[sp->i + 1], sp->next_stop_char);
-		sp->wordlen += sp->next_stop - &s[sp->i];
-		sp->i += sp->wordlen;
-		if (sp->next_stop_char != c)
-			sp->i += 2;
-		sp->str[sp->j++] = ft_substr(sp->start, 0, sp->wordlen);
-		while (s[sp->i] && s[sp->i] == c)
-			sp->i++;
+			sp.next_stop_char = c;
+		sp.next_stop = ft_strchr(&s[sp.i + 1], sp.next_stop_char);
+		sp.wordlen += sp.next_stop - &s[sp.i];
+		sp.i += sp.wordlen;
+		if (sp.next_stop_char != c)
+			sp.i += 2;
+		sp.str[sp.j++] = ft_substr(sp.start, 0, sp.wordlen);
+		while (s[sp.i] && s[sp.i] == c)
+			sp.i++;
 	}
-	sp->str[sp->j] = NULL;
-	return (sp->str);
+	sp.str[sp.j] = NULL;
+	return (sp.str);
 }
 
 char	**ft_split(char *s, char c)
 {
-	t_split	*sp;
+	t_split	sp;
 	int		x;
 
 	x = 0;
-	sp = malloc(sizeof(t_split));
-	sp->str = malloc((count(s, c) + 1) * sizeof(char *));
-	if (!sp->str)
+	sp.str = malloc((count(s, c) + 1) * sizeof(char *));
+	if (!sp.str)
 		return (NULL);
-	sp->i = 0;
-	while (s[sp->i] && s[sp->i] == c)
-		sp->i++;
-	sp->str = ft_fill(sp, s, c);
-	return (sp->str);
+	sp.i = 0;
+	while (s[sp.i] && s[sp.i] == c)
+		sp.i++;
+	sp.str = ft_fill(sp, s, c);
+	return (sp.str);
 }

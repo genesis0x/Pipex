@@ -6,11 +6,11 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 07:46:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/10 16:39:28 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:11:58 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 static void	ft_putchar_fd(int fd, char c)
 {

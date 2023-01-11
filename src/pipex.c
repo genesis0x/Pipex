@@ -6,11 +6,11 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/10 22:03:12 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:30:21 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../inc/pipex.h"
 
 void	close_pipes(t_pipex *pipex)
 {
@@ -30,13 +30,13 @@ char	*find_path(char **env)
 	return (*env + 5);
 }
 
-int	ft_fork(t_pipex pipex, int ac, char **av, char **envp)
+int	ft_fork(t_pipex pipex, char **av, char **envp)
 {
 	pipex.pid = fork();
 	if (pipex.pid == 0)
 		child(pipex, av, envp);
 	else
-		parent(pipex, ac, av, envp);
+		parent(pipex, av, envp);
 	return (pipex.pid);
 }
 
@@ -45,7 +45,7 @@ int	main(int ac, char **av, char **envp)
 	t_pipex	pipex;
 	int		status;
 
-	if (ac < 5)
+	if (ac != 5)
 	{
 		ft_dprintf(2, "Bad Usage");
 		return (1);
@@ -56,8 +56,8 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	}
 	pipex.paths = find_path(envp);
-	pipex.cmds_paths = ft_split(pipex.paths, ':');
-	if (ft_fork(pipex, ac, av, envp) < 0)
+	pipex.cmd_paths = ft_split(pipex.paths, ':');
+	if (ft_fork(pipex, av, envp) < 0)
 	{
 		ft_dprintf(2, "Fork failed");
 		return (1);

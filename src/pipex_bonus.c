@@ -6,11 +6,11 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 00:48:26 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/10 22:18:07 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:30:07 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "../inc/pipex_bonus.h"
 
 void	close_pipes(t_pipex *pipex)
 {

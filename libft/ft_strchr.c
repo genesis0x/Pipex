@@ -6,11 +6,11 @@
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 15:06:41 by hahadiou          #+#    #+#             */
-/*   Updated: 2022/12/18 16:39:40 by hahadiou         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:12:09 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {

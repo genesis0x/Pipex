@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/15 21:41:47 by hahadiou          #+#    #+#             */
-/*   Updated: 2023/01/10 15:31:16 by hahadiou         ###   ########.fr       */
+/*   Created: 2023/01/11 10:13:19 by hahadiou          #+#    #+#             */
+/*   Updated: 2023/01/11 11:12:26 by hahadiou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 static void	free_buffer(t_read *prb)
 {

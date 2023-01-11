@@ -1,76 +1,84 @@
-NAME        = pipex
-CC        = gcc
-FLAGS    = -Wall -Wextra -Werror
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/01/11 11:14:53 by hahadiou          #+#    #+#              #
+#    Updated: 2023/01/11 11:30:47 by hahadiou         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRCS        =     		process.c \
-                        	pipex.c \
-							libft/ft_memcpy.c \
-							libft/ft_split.c \
-							libft/ft_strchr.c \
-							libft/ft_strdup.c \
-							libft/ft_strjoin.c \
-							libft/ft_strlen.c \
-							libft/ft_strncmp.c \
-							libft/ft_strnstr.c \
-							libft/ft_strrchr.c \
-							libft/ft_substr.c \
-							libft/get_next_line.c \
-							libft/ft_dprintf.c
+CC		= cc
+FLAGS	= -Wall -Wextra -Werror
+
+NAME	= pipex
+NAMEB	= pipex_bonus
+
+INC	= inc
+LIBFT_PATH	= libft/
+SRC_PATH	= src/
+OBJ_PATH	= obj/
+OBJB_PATH	= obj_bonus/
+
+SRCS = pipex.c \
+		process.c
+
+SRCSB = pipex_bonus.c \
+		process_bonus.c \
+		heredoc.c
+		
+SRC		= $(addprefix $(SRC_PATH)/,$(SRCS))
+SRC_B	= $(addprefix $(SRC_PATH)/,$(SRCSB))
+OBJ		= $(addprefix $(OBJ_PATH)/,$(SRCS:.c=.o))
+OBJB	= $(addprefix $(OBJB_PATH)/,$(SRCSB:.c=.o))
+
+NOC		= \033[0m
+RED		= \033[1;31m
+GREEN	= \033[1;32m
+YELLOW	= \033[1;33m
+BLUE	= \033[1;34m
+WHITE	= \033[1;37m
+
+all: $(NAME)
+
+bonus: $(NAMEB)
+
+$(NAME): $(OBJ)
+	@echo "$(YELLOW)Compiling Libft...$(NOC)"
+	@make -sC $(LIBFT_PATH)
+	@echo "$(YELLOW)Compiling Pipex...$(NOC)"
+	@$(CC) $(FLAGS) -L $(LIBFT_PATH) -o $@ $^ -lft
+	@echo "$(GREEN)$@$(NOC)"
+
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INC)/$(NAME).h
+	@mkdir -p obj
+	@$(CC) $(FLAGS) -I$(INC) -c -o $@ $<
+
+$(NAMEB): $(OBJB)
+	@echo "$(YELLOW)Compiling Libft...$(NOC)"
+	@make -sC $(LIBFT_PATH)
+	@echo "$(YELLOW)Compiling Pipex Bonus...$(NOC)"
+	@$(CC) $(FLAGS) -L $(LIBFT_PATH) -o $@ $^ -lft
+	@echo "$(GREEN)$@$(NOC)"
+
+$(OBJB_PATH)/%.o: $(SRC_PATH)/%.c $(INC)/$(NAMEB).h
+	@mkdir -p obj_bonus
+	@$(CC) $(FLAGS) -I$(INC) -c -o $@ $<
+	
+clean:
+	@echo "$(RED)clean$(NOC)"
+	@make clean -sC $(LIBFT_PATH)
+	@rm -rf $(OBJ_PATH)
+	@rm -rf $(OBJB_PATH)
+
+fclean: clean
+	@echo "$(RED)fclean$(NOC)"
+	@make fclean -sC $(LIBFT_PATH)
+	@rm -f $(NAME) ${NAMEB}
+
+re: fclean all
 
 
-SRCS_BONUS	=			process_bonus.c \
-							pipex_bonus.c \
-							heredoc.c \
-							libft/ft_memcpy.c \
-							libft/ft_split.c \
-							libft/ft_strchr.c \
-							libft/ft_strdup.c \
-							libft/ft_strjoin.c \
-							libft/ft_strlen.c \
-							libft/ft_strncmp.c \
-							libft/ft_strnstr.c \
-							libft/ft_strrchr.c \
-							libft/ft_substr.c \
-							libft/get_next_line.c \
-							libft/ft_dprintf.c
-
-CLR_RMV		= \033[0m
-RED		    = \033[1;31m
-GREEN		= \033[1;32m
-YELLOW		= \033[1;33m
-BLUE		= \033[1;34m
-CYAN 		= \033[1;36m
-
-OBJS        = $(SRCS:.c=.o)
-
-OBJS_BONUS	= $(SRCS_BONUS:.c=.o)
-
-.c.o:
-	@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
-
-
-RM		    = rm -f
-
-all:		${NAME}
-
-${NAME}:	${OBJS}
-			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			@${CC} ${FLAGS} -o ${NAME} ${OBJS} 
-			@echo "$(GREEN)$(NAME) created[0m ✔️"
-
-bonus	:	${OBJS_BONUS}
-			@echo "$(GREEN)Compilation ${CLR_RMV}Bonus of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			@${CC} ${FLAGS} -o ${NAME} ${OBJS_BONUS} 
-			@echo "$(GREEN)$(NAME) created[0m ✔️"
-
-clean:	
-			@ ${RM} ${OBJS} ${OBJS_BONUS}
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)OBJS ✔️"
-
-fclean:		clean
-			@ ${RM} ${NAME}
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)${NAME} ✔️"
-
-re:			fclean all
-
-.PHONY:		all clean fclean re
+.PHONY:	all clean fclean re  
