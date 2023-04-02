@@ -50,14 +50,11 @@ struct						s_pipex
 	t_executer				execute;
 };
 
-void						init(t_pipex *pipex, int ac, char **av,
-								char **envp);
-void						init_args(t_pipex *pipex, int ac, char **av,
-								bool out);
+void						init(t_pipex *p, int ac, char **av, char **e);
+void						init_args(t_pipex *p, int ac, char **av, bool o);
 char						*get_cmd(char **paths, char *cmd);
 int							check_cmd(char *cmd);
 void						is_valid_cmd(t_pipex *pipex, bool child);
-void						start(t_pipex *pipex, int ac, char **av,
-								char **envp);
+void						start(t_pipex *pipex, int ac, char **av, char **e);
 
 #endif
