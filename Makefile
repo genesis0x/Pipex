@@ -5,34 +5,28 @@
 #                                                     +:+ +:+         +:+      #
 #    By: hahadiou <hahadiou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/01/11 11:14:53 by hahadiou          #+#    #+#              #
-#    Updated: 2023/01/11 11:30:47 by hahadiou         ###   ########.fr        #
+#    Created: 2023/02/03 15:11:30 by hahadiou          #+#    #+#              #
+#    Updated: 2023/03/15 18:12:34 by hahadiou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		= cc
-FLAGS	= -Wall -Wextra -Werror
+FLAGS	= -Wall -Wextra -Werror -IINC
 
 NAME	= pipex
-NAMEB	= pipex_bonus
 
 INC	= inc
-LIBFT_PATH	= libft/
-SRC_PATH	= src/
-OBJ_PATH	= obj/
-OBJB_PATH	= obj_bonus/
+UTILS_PATH	= utils
+SRC_PATH	= src
+OBJ_PATH	= obj
 
 SRCS = pipex.c \
-		process.c
-
-SRCSB = pipex_bonus.c \
-		process_bonus.c \
-		heredoc.c
+		init.c \
+		main.c \
+		check.c
 		
 SRC		= $(addprefix $(SRC_PATH)/,$(SRCS))
-SRC_B	= $(addprefix $(SRC_PATH)/,$(SRCSB))
 OBJ		= $(addprefix $(OBJ_PATH)/,$(SRCS:.c=.o))
-OBJB	= $(addprefix $(OBJB_PATH)/,$(SRCSB:.c=.o))
 
 NOC		= \033[0m
 RED		= \033[1;31m
@@ -43,42 +37,29 @@ WHITE	= \033[1;37m
 
 all: $(NAME)
 
-bonus: $(NAMEB)
+bonus: all
 
 $(NAME): $(OBJ)
-	@echo "$(YELLOW)Compiling Libft...$(NOC)"
-	@make -sC $(LIBFT_PATH)
+	@echo "$(YELLOW)Compiling Utils...$(NOC)"
+	@make -sC $(UTILS_PATH)
 	@echo "$(YELLOW)Compiling Pipex...$(NOC)"
-	@$(CC) $(FLAGS) -L $(LIBFT_PATH) -o $@ $^ -lft
+	@$(CC) $(FLAGS) -L $(UTILS_PATH) -o $@ $^ -lft
 	@echo "$(GREEN)$@$(NOC)"
 
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INC)/$(NAME).h
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INC)/$(NAME).h  $(INC)/$(UTILS_PATH).h 
 	@mkdir -p obj
-	@$(CC) $(FLAGS) -I$(INC) -c -o $@ $<
-
-$(NAMEB): $(OBJB)
-	@echo "$(YELLOW)Compiling Libft...$(NOC)"
-	@make -sC $(LIBFT_PATH)
-	@echo "$(YELLOW)Compiling Pipex Bonus...$(NOC)"
-	@$(CC) $(FLAGS) -L $(LIBFT_PATH) -o $@ $^ -lft
-	@echo "$(GREEN)$@$(NOC)"
-
-$(OBJB_PATH)/%.o: $(SRC_PATH)/%.c $(INC)/$(NAMEB).h
-	@mkdir -p obj_bonus
 	@$(CC) $(FLAGS) -I$(INC) -c -o $@ $<
 	
 clean:
-	@echo "$(RED)clean$(NOC)"
-	@make clean -sC $(LIBFT_PATH)
+	@echo "$(RED)Deleting OBJS ✔️ $(NOC)"
+	@make clean -sC $(UTILS_PATH)
 	@rm -rf $(OBJ_PATH)
-	@rm -rf $(OBJB_PATH)
 
 fclean: clean
-	@echo "$(RED)fclean$(NOC)"
-	@make fclean -sC $(LIBFT_PATH)
-	@rm -f $(NAME) ${NAMEB}
+	@echo "$(RED)Deleting Binary ✔️$(NOC)"
+	@make fclean -sC $(UTILS_PATH)
+	@rm -f $(NAME) 
 
 re: fclean all
 
-
-.PHONY:	all clean fclean re  
+.PHONY:	all bonus clean fclean re 

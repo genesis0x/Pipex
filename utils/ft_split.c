@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/libft.h"
+#include "utils.h"
 
 int	count(char *s, char c)
 {
@@ -71,7 +71,7 @@ char	**ft_split(char *s, char c)
 	int		x;
 
 	x = 0;
-	sp.str = malloc((count(s, c) + 1) * sizeof(char *));
+	sp.str = (char **)malloc((count(s, c) + 1) * sizeof(char *));
 	if (!sp.str)
 		return (NULL);
 	sp.i = 0;
