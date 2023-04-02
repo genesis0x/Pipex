@@ -14,10 +14,10 @@
 # define UTILS_H
 
 # include <limits.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdarg.h>
-#include <string.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
 
 # ifdef BUFFER_SIZE
 #  if BUFFER_SIZE < 0
@@ -57,7 +57,8 @@ char					*get_next_line(int fd);
 void					ft_dprintf(int fd, char *s, ...);
 char					*ft_strjoin(char const *s1, char const *s2);
 char					**ft_split(char *s, char c);
-char					*ft_substr(char const *s, unsigned int start, size_t len);
+char					*ft_substr(char const *s, unsigned int start,
+							size_t len);
 char					*ft_strchr(const char *s, int c);
 char					*ft_strrchr(const char *s, int c);
 size_t					ft_strlen(const char *s);

@@ -32,10 +32,11 @@ void	is_valid_cmd(t_pipex *pipex, bool child)
 	if (child)
 	{
 		if (!(pipex->parse.cmd))
-		{ 
+		{
 			// should clean all allocated memory before exit
-			ft_dprintf(2, "pipex: %s: command not found\n", pipex->parse.cmd_args[0]);
-        	exit (0);
+			ft_dprintf(2, "pipex: %s: command not found\n",
+					pipex->parse.cmd_args[0]);
+			exit(0);
 		}
 	}
 	else
@@ -43,9 +44,9 @@ void	is_valid_cmd(t_pipex *pipex, bool child)
 		if (!(pipex->parse.cmd))
 		{
 			// should clean all allocated memory before exit
-			ft_dprintf(2, "pipex: %s: command not found\n", pipex->parse.cmd_args[0]);
+			ft_dprintf(2, "pipex: %s: command not found\n",
+					pipex->parse.cmd_args[0]);
 			exit(127);
 		}
 	}
-
 }

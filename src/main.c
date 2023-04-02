@@ -39,54 +39,54 @@ char	*get_cmd(char **paths, char *cmd)
 	return (NULL);
 }
 
-static void    init_cmd(t_pipex *pipex, char **av, int cmd_idx)
+static void	init_cmd(t_pipex *pipex, char **av, int cmd_idx)
 {
-    pipex->parse.cmd_args = ft_split(av[cmd_idx], ' ');
-    pipex->parse.cmd = get_cmd(pipex->parse.cmd_path, pipex->parse.cmd_args[0]);
+	pipex->parse.cmd_args = ft_split(av[cmd_idx], ' ');
+	pipex->parse.cmd = get_cmd(pipex->parse.cmd_path, pipex->parse.cmd_args[0]);
 }
 
-static void    execute_cmd(t_pipex *pipex, int ac, char **av, char **envp)
+static void	execute_cmd(t_pipex *pipex, int ac, char **av, char **envp)
 {
-    is_valid_cmd(pipex, true);
-    if (pipex->execute.cmd_idx == 2)
-        init_args(pipex, ac, av, true);
-    if (pipex->execute.prev_pipe != 0)
-    {
-        dup2(pipex->execute.prev_pipe, 0);
-        close(pipex->execute.prev_pipe);
-    }
-    dup2(pipex->execute.pfds[1], 1);
-    close(pipex->execute.pfds[1]);
-    execve(pipex->parse.cmd, pipex->parse.cmd_args, envp);
-    ft_dprintf(2, "Execve Failed.\n");
-    exit (1);
+	is_valid_cmd(pipex, true);
+	if (pipex->execute.cmd_idx == 2)
+		init_args(pipex, ac, av, true);
+	if (pipex->execute.prev_pipe != 0)
+	{
+		dup2(pipex->execute.prev_pipe, 0);
+		close(pipex->execute.prev_pipe);
+	}
+	dup2(pipex->execute.pfds[1], 1);
+	close(pipex->execute.pfds[1]);
+	execve(pipex->parse.cmd, pipex->parse.cmd_args, envp);
+	ft_dprintf(2, "Execve Failed.\n");
+	exit(1);
 }
 
-void    start(t_pipex *pipex, int ac, char **av, char **envp)
+void	start(t_pipex *pipex, int ac, char **av, char **envp)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (++i < ac - 4)
-    {
-        pipe(pipex->execute.pfds);
-        init_cmd(pipex, av, ++pipex->execute.cmd_idx);
-        pipex->execute.pid = fork();
-        if (!(pipex->execute.pid))
-            execute_cmd(pipex, ac, av, envp);
-        close(pipex->execute.prev_pipe);
-        close(pipex->execute.pfds[1]);
-        pipex->execute.prev_pipe = pipex->execute.pfds[0];
-    }
-    wait(NULL);
-    if (pipex->execute.prev_pipe != 0)
-    {
-        dup2(pipex->execute.prev_pipe, 0);
-        close(pipex->execute.prev_pipe);
-    }
-    init_cmd(pipex, av, ac - 2);
-    is_valid_cmd(pipex, false);
-    execve(pipex->parse.cmd, pipex->parse.cmd_args, envp);
-    ft_dprintf(2, "Execve Failed.\n");
-    exit (1);
+	i = -1;
+	while (++i < ac - 4)
+	{
+		pipe(pipex->execute.pfds);
+		init_cmd(pipex, av, ++pipex->execute.cmd_idx);
+		pipex->execute.pid = fork();
+		if (!(pipex->execute.pid))
+			execute_cmd(pipex, ac, av, envp);
+		close(pipex->execute.prev_pipe);
+		close(pipex->execute.pfds[1]);
+		pipex->execute.prev_pipe = pipex->execute.pfds[0];
+	}
+	wait(NULL);
+	if (pipex->execute.prev_pipe != 0)
+	{
+		dup2(pipex->execute.prev_pipe, 0);
+		close(pipex->execute.prev_pipe);
+	}
+	init_cmd(pipex, av, ac - 2);
+	is_valid_cmd(pipex, false);
+	execve(pipex->parse.cmd, pipex->parse.cmd_args, envp);
+	ft_dprintf(2, "Execve Failed.\n");
+	exit(1);
 }
