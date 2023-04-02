@@ -12,6 +12,24 @@
 
 #include "pipex.h"
 
+static void	ft_free(t_pipex *pipex, bool parent)
+{
+	int	i;
+
+	i = 0;
+	if (parent)
+	{
+		close(pipex->execute.pfds[0]);
+		close(pipex->execute.pfds[1]);
+	}
+	while (pipex->parse.cmd_path[i])
+	{
+		free(pipex->parse.cmd_path[i]);
+		i++;
+	}
+	free(pipex->parse.cmd_path);
+}
+
 int	check_cmd(char *cmd)
 {
 	if (access(cmd, F_OK) < 0)
@@ -33,7 +51,7 @@ void	is_valid_cmd(t_pipex *pipex, bool child)
 	{
 		if (!(pipex->parse.cmd))
 		{
-			// should clean all allocated memory before exit
+			ft_free(pipex, true);
 			ft_dprintf(2, "pipex: %s: command not found\n",
 					pipex->parse.cmd_args[0]);
 			exit(0);
@@ -43,7 +61,7 @@ void	is_valid_cmd(t_pipex *pipex, bool child)
 	{
 		if (!(pipex->parse.cmd))
 		{
-			// should clean all allocated memory before exit
+			ft_free(pipex, true);
 			ft_dprintf(2, "pipex: %s: command not found\n",
 					pipex->parse.cmd_args[0]);
 			exit(127);
